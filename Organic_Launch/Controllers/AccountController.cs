@@ -14,6 +14,11 @@ namespace Organic_Launch.Controllers
             return View();
         }
 
+        public ActionResult UserAccountEdit()
+        {
+            return View();
+        }
+
         //Admin only
         public ActionResult List()
         {
