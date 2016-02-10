@@ -20,11 +20,34 @@ namespace WebApplication1.Controllers
         const string EMAIL_CONFIRMATION = "EmailConfirmation";
         const string PASSWORD_RESET = "ResetPassword";
 
+        string GetUserRole(Login login)
+        {
+            FoodSaleAuthEntities context = new FoodSaleAuthEntities();
+            var user = context.AspNetUsers.Where(u => u.UserName == login.UserName).FirstOrDefault();
+            IQueryable<string> roleQuery = from u in context.AspNetUsers
+                                           from r in u.AspNetRoles
+                                           where u.UserName == login.UserName
+                                           select r.Name;
+            string[] roles = roleQuery.ToArray();
+            if (roles != null)
+            {
+                return roles[0];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult AddUserToRole()
         {
             return View();
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult AddUserToRole(string userName, string roleName)
         {
@@ -39,11 +62,14 @@ namespace WebApplication1.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult AddRole()
         {
             return View();
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult AddRole(AspNetRole role)
         {
@@ -52,7 +78,6 @@ namespace WebApplication1.Controllers
             context.SaveChanges();
             return View();
         }
-
 
         public ActionResult Index()
         {
@@ -169,12 +194,12 @@ namespace WebApplication1.Controllers
 
 
         [HttpGet]
-        public ActionResult IndexSecurity()
+        public ActionResult Login()
         {
             return View();
         }
         [HttpPost]
-        public ActionResult IndexSecurity(Login login)
+        public ActionResult Login(Login login)
         {
             // UserStore and UserManager manages data retreival.
             UserStore<IdentityUser> userStore = new UserStore<IdentityUser>();
@@ -201,7 +226,26 @@ namespace WebApplication1.Controllers
                     {
                         IsPersistent = false
                     }, identity);
-                    return RedirectToAction("SecureArea", "Home");
+
+                    // A redirect based on the user type to forward the user to the correct controller homepage
+                    string userRole = GetUserRole(login);
+
+                    if (userRole != null)
+                    {
+                        if (userRole.Equals("Admin"))
+                        {
+                            return RedirectToAction("Index", "Admin");
+                        }
+                        else if (userRole.Equals("Buyer"))
+                        {
+                            return RedirectToAction("Index", "Buyer");
+                        }
+                        else if (userRole.Equals("Farm"))
+                        {
+                            return RedirectToAction("Index", "Farm");
+                        }
+                    }
+                    return RedirectToAction("Index", "Home");
                 }
             }
             return View();

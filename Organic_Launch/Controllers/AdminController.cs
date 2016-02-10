@@ -10,10 +10,11 @@ namespace Organic_Launch.Controllers
     {
         private FarmSaleDBEntities db = new FarmSaleDBEntities();
         // GET: Admin
-        public ActionResult Admin()
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult Index()
         {
-            
-            return View(db.Products.ToList());
+            return View();
         }
     }
 }
