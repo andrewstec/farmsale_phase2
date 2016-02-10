@@ -12,7 +12,6 @@ namespace Organic_Launch.Controllers
         // GET: Admin
         public ActionResult Admin()
         {
-            
             return View(db.Products.ToList());
         }
     }

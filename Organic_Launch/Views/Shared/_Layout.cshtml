@@ -26,11 +26,13 @@
                     {
                         <li><span>Welcome @Html.Raw(User.Identity.Name)</span></li>
                         <li><a href="#">Log Out</a></li>
+                      
                     }
                     else
                     {
                         <li>@Html.ActionLink("Log In", "IndexSecurity", "Home")</li>
                         <li>@Html.ActionLink("Register", "Register", "Home")</li>
+                        <li>@Html.ActionLink("Cart", "Cart", "Cart")</li>
                     }
                 </ul>
             </div>
