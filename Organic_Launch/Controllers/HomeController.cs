@@ -235,6 +235,7 @@ namespace WebApplication1.Controllers
             }
             return View();
         }
+
         [Authorize(Roles="Admin")]
         public ActionResult SecureArea()
         {
