@@ -328,6 +328,7 @@
     <Compile Include="Startup1.cs" />
     <Compile Include="ViewModels\Login.cs" />
     <Compile Include="ViewModels\RegisteredUser.cs" />
+    <Compile Include="ViewModels\UserRole.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -357,6 +358,8 @@
     <Content Include="Views\Farm\Delete.cshtml" />
     <Content Include="Views\Farm\SingleProductAccount.cshtml" />
     <Content Include="Views\Admin\Admin.cshtml" />
+    <Content Include="Views\Home\AddUserToRole.cshtml" />
+    <Content Include="Views\Home\AddRole.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
