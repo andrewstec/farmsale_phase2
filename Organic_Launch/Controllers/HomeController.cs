@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
+using Organic_Launch;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,40 @@ namespace WebApplication1.Controllers
 
         const string EMAIL_CONFIRMATION = "EmailConfirmation";
         const string PASSWORD_RESET = "ResetPassword";
+
+        [HttpGet]
+        public ActionResult AddUserToRole()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddUserToRole(string userName, string roleName)
+        {
+            FoodSaleAuthEntities context = new FoodSaleAuthEntities();
+            AspNetUser user = context.AspNetUsers
+                             .Where(u => u.UserName == userName).FirstOrDefault();
+            AspNetRole role = context.AspNetRoles
+                             .Where(r => r.Name == roleName).FirstOrDefault();
+
+            user.AspNetRoles.Add(role);
+            context.SaveChanges();
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult AddRole()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddRole(AspNetRole role)
+        {
+            FoodSaleAuthEntities context = new FoodSaleAuthEntities();
+            context.AspNetRoles.Add(role);
+            context.SaveChanges();
+            return View();
+        }
+
 
         public ActionResult Index()
         {
@@ -111,14 +146,8 @@ namespace WebApplication1.Controllers
             if (user == null)
                 return false;
 
-            // User is locked out.
-            if (userManager.SupportsUserLockout && userManager.IsLockedOut(user.Id))
-                return false;
-
             // Validated user was locked out but now can be reset.
-            if (userManager.CheckPassword(user, login.Password)
-            && userManager.IsEmailConfirmed(user.Id))
-
+            if (userManager.CheckPassword(user, login.Password))
             {
                 if (userManager.SupportsUserLockout
                  && userManager.GetAccessFailedCount(user.Id) > 0)
@@ -150,42 +179,32 @@ namespace WebApplication1.Controllers
             // UserStore and UserManager manages data retreival.
             UserStore<IdentityUser> userStore = new UserStore<IdentityUser>();
             UserManager<IdentityUser> manager = new UserManager<IdentityUser>(userStore);
-            try
-            {
-                IdentityUser identityUser = manager.Find(login.UserName,
+            IdentityUser identityUser = manager.Find(login.UserName,
                                                              login.Password);
-                if (ModelState.IsValid)
-                {
-                    if (ValidLogin(login))
-                    {
-                        IAuthenticationManager authenticationManager
-                                               = HttpContext.GetOwinContext().Authentication;
-                        authenticationManager
-                       .SignOut(DefaultAuthenticationTypes.ExternalCookie);
 
-                        var identity = new ClaimsIdentity(new[] {
+            if (ModelState.IsValid)
+            {
+                if (identityUser != null)
+                {
+                    IAuthenticationManager authenticationManager
+                                           = HttpContext.GetOwinContext().Authentication;
+                    authenticationManager
+                   .SignOut(DefaultAuthenticationTypes.ExternalCookie);
+
+                    var identity = new ClaimsIdentity(new[] {
                                             new Claim(ClaimTypes.Name, login.UserName),
                                         },
-                                            DefaultAuthenticationTypes.ApplicationCookie,
-                                            ClaimTypes.Name, ClaimTypes.Role);
-                        // SignIn() accepts ClaimsIdentity and issues logged in cookie. 
-                        authenticationManager.SignIn(new AuthenticationProperties
-                        {
-                            IsPersistent = false
-                        }, identity);
-                        return RedirectToAction("SecureArea", "Home");
-                    }
+                                        DefaultAuthenticationTypes.ApplicationCookie,
+                                        ClaimTypes.Name, ClaimTypes.Role);
+                    // SignIn() accepts ClaimsIdentity and issues logged in cookie. 
+                    authenticationManager.SignIn(new AuthenticationProperties
+                    {
+                        IsPersistent = false
+                    }, identity);
+                    return RedirectToAction("SecureArea", "Home");
                 }
             }
-            catch
-            {
-                ViewBag.Error = "Username and Password fields cannot be empty.";
-                return View();
-            }
-
-            ViewBag.Error = "Invalid Username or Password.";
             return View();
-
         }
         [HttpGet]
         public ActionResult Register()
@@ -197,12 +216,7 @@ namespace WebApplication1.Controllers
         public ActionResult Register(RegisteredUser newUser)
         {
             var userStore = new UserStore<IdentityUser>();
-            UserManager<IdentityUser> manager = new UserManager<IdentityUser>(userStore)
-            {
-                UserLockoutEnabledByDefault = true,
-                DefaultAccountLockoutTimeSpan = new TimeSpan(0, 10, 0),
-                MaxFailedAccessAttemptsBeforeLockout = 3
-            };
+            var manager = new UserManager<IdentityUser>(userStore);
             var identityUser = new IdentityUser()
             {
                 UserName = newUser.UserName,
@@ -212,21 +226,16 @@ namespace WebApplication1.Controllers
 
             if (result.Succeeded)
             {
-                CreateTokenProvider(manager, EMAIL_CONFIRMATION);
-
-                var code = manager.GenerateEmailConfirmationToken(identityUser.Id);
-                var callbackUrl = Url.Action("ConfirmEmail", "Home",
-                                                new { userId = identityUser.Id, code = code },
-                                                    protocol: Request.Url.Scheme);
-
-                string email = "Please confirm your account by clicking this link: <a href=\""
-                                + callbackUrl + "\">Confirm Registration</a>";
-                ViewBag.FakeConfirmation = email;
-
+                var authenticationManager
+                                  = HttpContext.Request.GetOwinContext().Authentication;
+                var userIdentity = manager.CreateIdentity(identityUser,
+                                           DefaultAuthenticationTypes.ApplicationCookie);
+                authenticationManager.SignIn(new AuthenticationProperties() { },
+                                             userIdentity);
             }
             return View();
         }
-        [Authorize]
+        [Authorize(Roles="Admin")]
         public ActionResult SecureArea()
         {
             return View();
@@ -237,7 +246,9 @@ namespace WebApplication1.Controllers
             var ctx = Request.GetOwinContext();
             var authenticationManager = ctx.Authentication;
             authenticationManager.SignOut();
-            return RedirectToAction("IndexSecurity", "Home");
+            return RedirectToAction("Index", "Home");
         }
     }
 }
+
+
