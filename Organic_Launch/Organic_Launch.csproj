@@ -171,6 +171,9 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\admin_area.jpg" />
+    <Content Include="Content\Images\buyer_area.jpg" />
+    <Content Include="Content\Images\farm_area.jpg" />
     <Content Include="Content\Site.css" />
     <Content Include="FarmSaleDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -363,6 +366,7 @@
     <Content Include="Views\Home\AddUserToRole.cshtml" />
     <Content Include="Views\Home\AddRole.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Buyer\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
