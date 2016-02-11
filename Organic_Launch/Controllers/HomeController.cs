@@ -233,6 +233,7 @@ namespace WebApplication1.Controllers
 
                     if (userRole != null)
                     {
+                        Session["UserType"] = userRole;
                         if (userRole.Equals("Admin"))
                         {
                             return RedirectToAction("Index", "Admin");
