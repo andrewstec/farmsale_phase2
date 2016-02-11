@@ -13,10 +13,10 @@ namespace Organic_Launch
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class FarmSaleDBEntities : DbContext
+    public partial class FarmSaleDBEntities1 : DbContext
     {
-        public FarmSaleDBEntities()
-            : base("name=FarmSaleDBEntities")
+        public FarmSaleDBEntities1()
+            : base("name=FarmSaleDBEntities1")
         {
         }
     
@@ -25,6 +25,7 @@ namespace Organic_Launch
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<AccountDetail> AccountDetails { get; set; }
         public virtual DbSet<Address> Addresses { get; set; }

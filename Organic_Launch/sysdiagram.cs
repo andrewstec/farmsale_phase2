@@ -12,14 +12,12 @@ namespace Organic_Launch
     using System;
     using System.Collections.Generic;
     
-    public partial class Order
+    public partial class sysdiagram
     {
-        public int orderID { get; set; }
-        public Nullable<int> accountID { get; set; }
-        public Nullable<int> farmProductID { get; set; }
-        public Nullable<int> qty { get; set; }
-    
-        public virtual Account Account { get; set; }
-        public virtual FarmProduct FarmProduct { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }
