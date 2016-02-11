@@ -9,6 +9,7 @@ using System.Net;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
+using WebApplication1.Models;
 using WebApplication1.ViewModels;
 
 namespace WebApplication1.Controllers
@@ -293,6 +294,7 @@ namespace WebApplication1.Controllers
             authenticationManager.SignOut();
             return RedirectToAction("Index", "Home");
         }
+        
     }
 }
 

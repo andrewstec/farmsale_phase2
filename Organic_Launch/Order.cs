@@ -17,6 +17,7 @@ namespace Organic_Launch
         public int orderID { get; set; }
         public Nullable<int> accountID { get; set; }
         public Nullable<int> farmProductID { get; set; }
+        public Nullable<int> qty { get; set; }
     
         public virtual Account Account { get; set; }
         public virtual FarmProduct FarmProduct { get; set; }
