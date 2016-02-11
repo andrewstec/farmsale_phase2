@@ -21,15 +21,30 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">About Us</a></li>
-                    @if (Request.IsAuthenticated)
+                    @if (Request.IsAuthenticated && @HttpContext.Current.Session["UserType"].ToString().Equals("Admin"))
                     {
-                        <li><span>Welcome @Html.Raw(User.Identity.Name)</span></li>
-                        <li>@Html.ActionLink("Logout", "Logout", "Home")</li>
+                        <li></li>
+                        <li>@Html.ActionLink("Logout " + User.Identity.Name, "Logout", "Home") </li>
+                        <li>@Html.ActionLink("View Cart", "ViewCart", "Cart")</li>
+                        <li>@Html.ActionLink("Shop", "Shop", "Cart")</li>
+                    }
+                    else if (Request.IsAuthenticated && @HttpContext.Current.Session["UserType"].ToString().Equals("Buyer"))
+                    {
+                        <li>Welcome @Html.Raw(User.Identity.Name)</li>
+                        <li>@Html.ActionLink("Logout " + User.Identity.Name, "Logout", "Home") @Html.Raw(User.Identity.Name)</li>
+                        <li>@Html.ActionLink("View Cart", "ViewCart", "Cart")</li>
+                        <li>@Html.ActionLink("Shop", "Shop", "Cart")</li>
+                    }
+                    else if (Request.IsAuthenticated && @HttpContext.Current.Session["UserType"].ToString().Equals("Farm"))
+                    {
+                        <li>Welcome @Html.Raw(User.Identity.Name)</li>
+                        <li>@Html.ActionLink("Logout " + User.Identity.Name, "Logout", "Home") @Html.Raw(User.Identity.Name)</li>
+                        <li>@Html.ActionLink("View Cart", "ViewCart", "Cart")</li>
+                        <li>@Html.ActionLink("Shop", "Shop", "Cart")</li>
                     }
                     else
                     {
-                        <li>@Html.ActionLink("Login", "Login", "Home")</li>
+                        <li>@Html.ActionLink("Login ", "Login", "Home") @Html.Raw(User.Identity.Name)</li>
                         <li>@Html.ActionLink("Register", "Register", "Home")</li>
                     }
                 </ul>
@@ -41,7 +56,7 @@
         @RenderBody()
         <hr />
         <footer class="col-lg-12" style="text-align:center;">
-            
+
             <ul style="list-style:none;">
                 <li style="display:inline;">@Html.ActionLink("Organic Launch", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })</li>
                 <li style="display:inline;"><a href="#">Terms and Condition</a></li>

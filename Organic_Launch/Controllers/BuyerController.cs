@@ -12,9 +12,9 @@ namespace Organic_Launch.Controllers
         private FarmSaleDBEntities1 db = new FarmSaleDBEntities1();
         // GET: Product
         [Authorize(Roles = "Admin, Buyer, Farm")]
-        public ActionResult Single(int id)
+        public ActionResult Index()
         {
-            return View(db.Products.Where(x => x.productID == id).FirstOrDefault());
+            return View();
         }
 
         [Authorize(Roles = "Admin, Buyer, Farm")]
