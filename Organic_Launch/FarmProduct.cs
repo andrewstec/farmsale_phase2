@@ -21,7 +21,6 @@ namespace Organic_Launch
         }
     
         public int farmProductID { get; set; }
-        public Nullable<int> qty { get; set; }
         public Nullable<int> farmID { get; set; }
         public Nullable<int> productID { get; set; }
     

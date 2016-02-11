@@ -8,7 +8,7 @@ namespace Organic_Launch.Controllers
 {
     public class AdminController : Controller
     {
-        private FarmSaleDBEntities db = new FarmSaleDBEntities();
+        private FarmSaleDBEntities1 db = new FarmSaleDBEntities1();
         // GET: Admin
 
         [Authorize(Roles = "Admin")]
