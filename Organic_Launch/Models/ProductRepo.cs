@@ -77,5 +77,26 @@ namespace WebApplication1.Models
             List<Product> products = db.Products.Where(p => p.productCategory == category).ToList();
             return products;
         }
+
+        public static IEnumerable<ProductVM> GetMyProducts(int farmID)
+        {
+            FarmSaleDBEntities1 db = new FarmSaleDBEntities1();
+            IEnumerable<ProductVM> products =
+                from f in db.Farms
+                from fp in db.FarmProducts
+                where farmID == fp.farmID && f.farmID == farmID
+                from p in db.Products
+                where p.productID == fp.productID
+                select new ProductVM()
+                {
+                    ProductName = p.productName,
+                    Price = (decimal)p.price,
+                    ProductCategory = p.productCategory,
+                    Description = p.productDescription,
+                    Qty = (int)p.qty,
+                    FarmName = f.farmName
+                };
+            return products;
+        }
     }
 }

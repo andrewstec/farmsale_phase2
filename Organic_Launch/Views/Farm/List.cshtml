@@ -1,34 +1,39 @@
-﻿@model IEnumerable<Organic_Launch.Product>
+﻿@model IEnumerable<Organic_Launch.Farm>
 
 @{
     ViewBag.Title = "List";
 }
 
+<h2>List</h2>
 
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.farmName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.farmProfile)
+        </th>
+        <th></th>
+    </tr>
 
-@Html.Partial("_SideBar")
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.farmName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.farmProfile)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.farmID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.farmID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.farmID })
+        </td>
+    </tr>
+}
 
-<div class="col-sm-8">
-    <h2>Farmer's Page</h2>
-    @foreach (var item in Model)
-    {
-
-        <div class="col-sm-4">
-            <a href="@Url.Action("Single", "Product", new { id = item.productID})" id="@item.productID">
-                <img src="img/img.jpg" alt="@item.productName" />
-            </a>
-            <ul>
-                <li>@Html.DisplayFor(modelItem => item.productName)</li>
-                <li>@Html.DisplayFor(modelItem => item.price)</li>
-                <li>@Html.DisplayFor(modelItem => item.productCategory)</li>
-                <li>@Html.DisplayFor(modelItem => item.productDescription)</li>
-            </ul>
-            <div>
-                <a href="@Url.Action("Edit", "Farm", new { id = item.productID})" id="@item.productID">Edit</a>
-            </div>
-        </div>
-    }
-</div>
-
-
-
+</table>

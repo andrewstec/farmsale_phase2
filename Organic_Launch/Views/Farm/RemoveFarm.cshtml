@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Delete";
+    var farmID = @Html.DisplayFor(model => model.farmID);
 }
 
 <h2>Delete</h2>
@@ -29,9 +30,9 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm("Delete", "Farm")) {
         @Html.AntiForgeryToken()
-
+        <input type="hidden" name="id" value="@Html.DisplayFor(model => model.farmID)" />
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
             @Html.ActionLink("Back to List", "Index")
