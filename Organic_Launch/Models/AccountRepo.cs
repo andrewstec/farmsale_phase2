@@ -44,17 +44,13 @@ namespace WebApplication1.Models
             db.SaveChanges();
         }
 
-        public void UpdateAccount(int id, string username, string password, string email, string accountType)
+        public void UpdateAccount(int id, string email)
         {
             FarmSaleDBEntities1 db = new FarmSaleDBEntities1();
             Account account = db.Accounts.Where(a => a.accountID == id).FirstOrDefault();
             if (account != null)
             {
-                account.username = username;
-                account.password = password;//Do we need this here?
                 account.email = email;
-                //Not sure if necessary
-                //account.accountType = accountType;
                 db.SaveChanges();
             }
         }

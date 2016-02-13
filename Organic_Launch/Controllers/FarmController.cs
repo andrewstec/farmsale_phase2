@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebApplication1.Models;
 
 namespace Organic_Launch.Controllers
 {
     public class FarmController : Controller
     {
+        FarmRepo farms = new FarmRepo();
         private FarmSaleDBEntities1 db = new FarmSaleDBEntities1();
         // GET: Farmer
 
@@ -16,44 +18,61 @@ namespace Organic_Launch.Controllers
         {
             return View();
         }
-
-        [Authorize(Roles = "Admin, Buyer, Farm")]
+        
+        //Needs styling
+        //Deleted and remade this view. Need to add styling again to this view
+        //[Authorize(Roles = "Admin, Buyer, Farm")]
         public ActionResult List()
         {
-            return View(db.Products.ToList());
+            return View(farms.GetAllFarms());
         }
 
-        [Authorize(Roles = "Farm")]
+        //Needs styling
+        //[Authorize(Roles = "Farm")]
         public ActionResult Create()
         {
             return View();
         }
 
-        [Authorize(Roles = "Farm")]
-        public ActionResult Edit(int id)
+        [HttpPost]
+        public ActionResult Create(string farmName, string farmProfile)
         {
-            return View(db.Farms.Where(i => i.farmID == id).FirstOrDefault());
+            farms.AddFarm(farmName, farmProfile);
+            return RedirectToAction("List");
         }
 
-        [Authorize(Roles = "Farm")]
+        [HttpGet]
+        //[Authorize(Roles = "Farm")]
+        public ActionResult Edit(int id)
+        {
+            return View(farms.GetFarm(id));
+        }
+
+        //[Authorize(Roles = "Farm")]
         [HttpPost]
         public ActionResult Edit()
         {
             return View();
         }
 
-        [Authorize(Roles = "Farm")]
-        public ActionResult Delete()
+        //Needs styling, Need to add the POST FUNCTION FOR THIS
+        //[Authorize(Roles = "Farm")]
+        public ActionResult RemoveFarm(int id)
         {
-            return View();
+            return View(farms.GetFarm(id));
         }
 
-        [Authorize(Roles = "Farm")]
         [HttpPost]
         public ActionResult Delete(int id)
         {
-            db.Farms.Remove(db.Farms.Where(i => i.farmID == id).FirstOrDefault());
-            return View();
+            farms.RemoveFarm(id);
+            return RedirectToAction("List");
+        }
+
+
+        public ActionResult Single(int id)
+        {
+            return View(farms.GetFarm(id));
         }
     }
 }
