@@ -278,6 +278,8 @@ namespace WebApplication1.Controllers
                                            DefaultAuthenticationTypes.ApplicationCookie);
                 authenticationManager.SignIn(new AuthenticationProperties() { },
                                              userIdentity);
+                string testVariable = newUser.UserRole;
+                AddUserToRole(newUser.UserName, newUser.UserRole);
             }
             return View();
         }
