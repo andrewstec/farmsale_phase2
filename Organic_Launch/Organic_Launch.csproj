@@ -235,6 +235,10 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Images\107.jpg" />
+    <Content Include="Images\218.jpg" />
+    <Content Include="Images\329.jpg" />
+    <Content Include="Images\logo.jpg" />
     <Content Include="Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -254,6 +258,16 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model2.edmx</DependentUpon>
       <LastGenOutput>Model2.cs</LastGenOutput>
+    </Content>
+    <Content Include="Model3.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model3.edmx</DependentUpon>
+      <LastGenOutput>Model3.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Model3.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model3.edmx</DependentUpon>
+      <LastGenOutput>Model3.cs</LastGenOutput>
     </Content>
     <Content Include="obj\Debug\Organic_Launch.csproj.FileListAbsolute.txt" />
     <Content Include="obj\Debug\Organic_Launch.dll" />
@@ -305,6 +319,13 @@
     <Content Include="obj\Debug\edmxResourcesToEmbed\Model2.msl" />
     <Content Include="obj\Debug\edmxResourcesToEmbed\Model2.ssdl" />
     <Content Include="obj\Debug\Organic_Launch.csprojResolveAssemblyReference.cache" />
+    <EntityDeploy Include="Model3.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model3.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Model3.edmx.diagram">
+      <DependentUpon>Model3.edmx</DependentUpon>
+    </Content>
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
     <Content Include="scripts\jquery-1.10.2.min.js" />
@@ -350,8 +371,18 @@
     <Compile Include="AspNetUserLogin.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="BusinessLogic\SessionHelper.cs" />
+    <Compile Include="CartModels\CartItemRepo.cs" />
+    <Compile Include="CartModels\CartItemVM.cs" />
+    <Compile Include="CartModels\CartProductRepo.cs" />
+    <Compile Include="CartModels\ProductVisitRepo.cs" />
+    <Compile Include="CartModels\VisitRepo.cs" />
+    <Compile Include="CartProduct.cs">
+      <DependentUpon>Model3.tt</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\FarmController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\BuyerController.cs" />
@@ -398,6 +429,21 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model2.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Model3.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model3.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model3.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model3.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model3.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model3.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\AccountDetailRepo.cs" />
     <Compile Include="Models\AccountRepo.cs" />
     <Compile Include="Models\AddressRepo.cs" />
@@ -419,6 +465,9 @@
     <Compile Include="Product.cs">
       <DependentUpon>Model2.tt</DependentUpon>
     </Compile>
+    <Compile Include="ProductVisit.cs">
+      <DependentUpon>Model3.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -432,6 +481,9 @@
     <Compile Include="ViewModels\Login.cs" />
     <Compile Include="ViewModels\RegisteredUser.cs" />
     <Compile Include="ViewModels\UserRole.cs" />
+    <Compile Include="Visit.cs">
+      <DependentUpon>Model3.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config">
@@ -471,6 +523,11 @@
     <Content Include="Views\Admin\ListAccounts.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Buyer\Index.cshtml" />
+    <Content Include="Views\Cart\Add.cshtml" />
+    <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\Cart\MyCart.cshtml" />
+    <Content Include="Views\Cart\Thankyou.cshtml" />
+    <Content Include="Views\Cart\ViewCart.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
