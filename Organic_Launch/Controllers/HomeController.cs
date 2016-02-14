@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Organic_Launch;
 using System;
@@ -37,6 +38,28 @@ namespace WebApplication1.Controllers
             else
             {
                 return null;
+            }
+        }
+
+
+        void LockoutUntilYear3015(UserManager<IdentityUser> manager, IdentityUser identityUser)
+        {
+            if (identityUser != null)
+            {
+                identityUser.LockoutEnabled = true;
+                identityUser.LockoutEndDateUtc = DateTime.UtcNow.AddYears(999);
+                manager.UpdateAsync(identityUser);
+            }
+
+        }
+
+        void DisableLockout(UserManager<IdentityUser> manager, IdentityUser identityUser)
+        {
+            if (identityUser != null)
+            {
+                identityUser.LockoutEnabled = true;
+                identityUser.LockoutEndDateUtc = null;
+                manager.UpdateAsync(identityUser);
             }
         }
 
@@ -215,7 +238,8 @@ namespace WebApplication1.Controllers
             IdentityUser identityUser = manager.Find(login.UserName,
                                                              login.Password);
 
-
+            //DisableLockout(manager, identityUser);
+            //LockoutUntilYear3015(manager, identityUser);
 
             if (ModelState.IsValid)
             {
