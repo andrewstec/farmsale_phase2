@@ -172,6 +172,12 @@ namespace WebApplication1.Controllers
             if (user == null)
                 return false;
 
+            // User is locked out.
+            if (userManager.SupportsUserLockout && userManager.IsLockedOut(user.Id))
+            {
+                return false;
+            }
+
             // Validated user was locked out but now can be reset.
             if (userManager.CheckPassword(user, login.Password))
             {
@@ -181,6 +187,7 @@ namespace WebApplication1.Controllers
                     userManager.ResetAccessFailedCount(user.Id);
                 }
             }
+
             // Login is invalid so increment failed attempts.
             else {
                 bool lockoutEnabled = userManager.GetLockoutEnabled(user.Id);
@@ -208,9 +215,11 @@ namespace WebApplication1.Controllers
             IdentityUser identityUser = manager.Find(login.UserName,
                                                              login.Password);
 
+
+
             if (ModelState.IsValid)
             {
-                if (identityUser != null)
+                if ((ValidLogin(login)))
                 {
                     IAuthenticationManager authenticationManager
                                            = HttpContext.GetOwinContext().Authentication;
@@ -262,7 +271,13 @@ namespace WebApplication1.Controllers
         public ActionResult Register(RegisteredUser newUser)
         {
             var userStore = new UserStore<IdentityUser>();
-            var manager = new UserManager<IdentityUser>(userStore);
+            UserManager<IdentityUser> manager = new UserManager<IdentityUser>(userStore)
+            {
+                UserLockoutEnabledByDefault = true,
+                DefaultAccountLockoutTimeSpan = new TimeSpan(0, 10, 0),
+                MaxFailedAccessAttemptsBeforeLockout = 3
+            };
+
             var identityUser = new IdentityUser()
             {
                 UserName = newUser.UserName,
