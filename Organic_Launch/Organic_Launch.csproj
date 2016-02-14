@@ -470,6 +470,7 @@
     <Content Include="Views\Farm\Create.cshtml" />
     <Content Include="Views\Admin\ListAccounts.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
+    <Content Include="Views\Buyer\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

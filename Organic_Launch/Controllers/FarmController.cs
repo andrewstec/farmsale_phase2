@@ -21,14 +21,14 @@ namespace Organic_Launch.Controllers
         
         //Needs styling
         //Deleted and remade this view. Need to add styling again to this view
-        //[Authorize(Roles = "Admin, Buyer, Farm")]
+        [Authorize(Roles = "Admin, Buyer, Farm")]
         public ActionResult List()
         {
             return View(farms.GetAllFarms());
         }
 
         //Needs styling
-        //[Authorize(Roles = "Farm")]
+        [Authorize(Roles = "Farm")]
         public ActionResult Create()
         {
             return View();
@@ -42,13 +42,13 @@ namespace Organic_Launch.Controllers
         }
 
         [HttpGet]
-        //[Authorize(Roles = "Farm")]
+        [Authorize(Roles = "Farm")]
         public ActionResult Edit(int id)
         {
             return View(farms.GetFarm(id));
         }
 
-        //[Authorize(Roles = "Farm")]
+        [Authorize(Roles = "Farm")]
         [HttpPost]
         public ActionResult Edit()
         {
@@ -56,7 +56,7 @@ namespace Organic_Launch.Controllers
         }
 
         //Needs styling, Need to add the POST FUNCTION FOR THIS
-        //[Authorize(Roles = "Farm")]
+        [Authorize(Roles = "Farm")]
         public ActionResult RemoveFarm(int id)
         {
             return View(farms.GetFarm(id));
@@ -68,8 +68,7 @@ namespace Organic_Launch.Controllers
             farms.RemoveFarm(id);
             return RedirectToAction("List");
         }
-
-
+        
         public ActionResult Single(int id)
         {
             return View(farms.GetFarm(id));
