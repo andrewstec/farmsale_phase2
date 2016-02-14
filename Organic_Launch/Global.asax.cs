@@ -9,6 +9,8 @@ using System.Threading;
 using System.Web;
 using System.Web.Helpers;
 using System.Security.Principal;
+using WebApplication3.BusinessLogic;
+using WebApplication3.Models;
 
 namespace Organic_Launch
 {
@@ -38,6 +40,26 @@ namespace Organic_Launch
             AntiForgeryConfig.SuppressIdentityHeuristicChecks = true;
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+        }
+
+        protected void Session_Start(object sender, EventArgs e)
+        {
+            SessionHelper helper = new SessionHelper();
+            helper.Initialize();
+
+            VisitRepo visit = new VisitRepo();
+            visit.removeOldVisits(DateTime.Now);
+            visit.addVisit(helper.SessionID, helper.Start);
+        }
+
+        protected void Session_End(object sender, EventArgs e)
+        {
+            if (HttpContext.Current.Session.SessionID != null)
+            {
+                HttpContext.Current.Session.Clear();
+                HttpContext.Current.Session.Abandon();
+
+            }
         }
     }
 }
