@@ -171,6 +171,9 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\admin_area.jpg" />
+    <Content Include="Content\Images\buyer_area.jpg" />
+    <Content Include="Content\Images\farm_area.jpg" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -380,6 +383,7 @@
     <Content Include="Views\Farm\Create.cshtml" />
     <Content Include="Views\Admin\ListAccounts.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
+    <Content Include="Views\Buyer\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
