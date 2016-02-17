@@ -23,6 +23,12 @@ namespace Organic_Launch.Controllers
             return View(db.Products.ToList());
         }
 
+        [Authorize(Roles = "Buyer")]
+        public ActionResult MyAccount(int id)
+        {
+            return View(db.Products.ToList());
+        }
+
         [Authorize(Roles = "Admin, Farm")]
         public ActionResult Create()
         {
