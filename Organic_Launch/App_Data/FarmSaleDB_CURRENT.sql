@@ -14,7 +14,7 @@ IF OBJECT_ID('Account', 'U')
 IF OBJECT_ID('Address', 'U')   
        IS NOT NULL DROP TABLE Address;
 
- 
+
 CREATE TABLE Account (
        accountID            INT IDENTITY PRIMARY KEY,
        username             VARCHAR(50),
