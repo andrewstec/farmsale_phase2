@@ -11,6 +11,8 @@ using System.Web.Helpers;
 using System.Security.Principal;
 using WebApplication3.BusinessLogic;
 using WebApplication3.Models;
+using System.Web.Http;
+using Organic_Launch.App_Start;
 
 namespace Organic_Launch
 {
@@ -37,6 +39,8 @@ namespace Organic_Launch
 
         protected void Application_Start()
         {
+            GlobalConfiguration.Configure(WebApiConfig.Register);
+            GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             AntiForgeryConfig.SuppressIdentityHeuristicChecks = true;
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);

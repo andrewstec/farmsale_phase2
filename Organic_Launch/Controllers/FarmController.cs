@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Http.Cors;
 using System.Web.Mvc;
 using WebApplication1.Models;
 
 namespace Organic_Launch.Controllers
 {
+    [EnableCors(origins:"*", headers:"*", methods:"*")]
     public class FarmController : Controller
     {
         FarmRepo farms = new FarmRepo();
