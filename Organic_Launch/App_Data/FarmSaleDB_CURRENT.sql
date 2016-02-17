@@ -1,18 +1,19 @@
-IF OBJECT_ID('Account', 'U')   
-       IS NOT NULL DROP TABLE Account;
-IF OBJECT_ID('Product', 'U')   
-       IS NOT NULL DROP TABLE Product;
-IF OBJECT_ID('Farm', 'U')   
-       IS NOT NULL DROP TABLE Farm;
-IF OBJECT_ID('Address', 'U')   
-       IS NOT NULL DROP TABLE Address;
+
 IF OBJECT_ID('AccountDetail', 'U')   
        IS NOT NULL DROP TABLE AccountDetail;
 IF OBJECT_ID('FarmProduct', 'U')   
        IS NOT NULL DROP TABLE FarmProduct;
 IF OBJECT_ID('[Order]', 'U')   
        IS NOT NULL DROP TABLE [Order];
-GO
+IF OBJECT_ID('Product', 'U')   
+       IS NOT NULL DROP TABLE Product;
+IF OBJECT_ID('Farm', 'U')   
+       IS NOT NULL DROP TABLE Farm;
+IF OBJECT_ID('Account', 'U')   
+       IS NOT NULL DROP TABLE Account;
+IF OBJECT_ID('Address', 'U')   
+       IS NOT NULL DROP TABLE Address;
+
  
 CREATE TABLE Account (
        accountID            INT IDENTITY PRIMARY KEY,
